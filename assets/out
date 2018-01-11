@@ -48,6 +48,11 @@ else
   scanner_opts+=" -Dsonar.host.url=${sonar_host_url}"
 fi
 
+project_binaries=$(jq -r '.params.project_binariesn // ""' < "${payload}")
+if [ ! -z "${project_binaries}" ]; then
+  scanner_opts+=" -Dsonar.java.binaries=${project_binaries}"
+fi
+
 sonar_organization=$(jq -r '.source.organization // ""' < "${payload}")
 if [ ! -z "${sonar_organization}" ]; then
   scanner_opts+=" -Dsonar.organization=${sonar_organization}"
