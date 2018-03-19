@@ -150,7 +150,7 @@ fi
 # "additional" property.
 additional_properties=$(jq -r '.params.additional_properties' < "${payload}")
 if [ ! -z "${additional_properties}" ]; then
-  read -r -a props_kv_arr <<< "$(jq -r 'to_entries|map("\(.key)=\"\(.value|tostring)\"")|.[]' <<< "${additional_properties}")"
+  read -d ',' -r -a props_kv_arr <<< "$(jq -r 'to_entries|map("\(.key)=\"\(.value|tostring)\"")|.[]' <<< "${additional_properties}")"
   for prop_kv in "${props_kv_arr[@]}"; do
     scanner_opts+=" -D${prop_kv}"
   done
